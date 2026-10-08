@@ -1,0 +1,3 @@
+stack,lang,n,correct,wrong,not_sure,mean_asr_conf,sec_per_case
+openai/whisper-large-v3 + Qwen/Qwen3.5-9B,hi,12,0.833,0.0,0.167,0.97,8.8
+large-v3-turbo (local) + gemma3:4b (local),hi,12,0.917,0.083,0.0,0.94,23.2

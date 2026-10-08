@@ -1,0 +1,4 @@
+languages:
+  hi: { name: Hindi,   whisper_code: hi, twilio_say_voice: "Polly.Aditi", sms_prefix: HI, script: devanagari }
+
+default_language: hi

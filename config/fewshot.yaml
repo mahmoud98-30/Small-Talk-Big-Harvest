@@ -1,0 +1,26 @@
+# Few-shot examples for the extraction prompt (synthetic, written by the team; NOT in the eval set).
+# Only non-zero flags are listed; all other symptoms are 0.
+examples:
+  hi:
+    - text: "कॉफी की पत्तियों के नीचे की तरफ नारंगी रंग का पाउडर है और ऊपर पीले दाग हैं। पत्तियाँ झड़ रही हैं।"
+      flags: { orange_powder_under_leaf: 1, yellow_spots_on_leaf: 1, leaves_falling: 1 }
+    - text: "बेरी में छोटे छेद हैं और अंदर छोटे कीड़े हैं। पत्तियों पर पीले दाग नहीं हैं।"
+      flags: { small_hole_in_berry: 1, insects_inside_berry: 1, yellow_spots_on_leaf: -1 }
+    # farming words and negations that small local models miss
+    - text: "पेड़ मुरझा रहा है और सूखी पत्तियाँ डालियों पर ही लगी रहती हैं।"
+      flags: { wilting: 1, dry_leaves_stay_attached: 1 }
+    - text: "बेरी सड़ कर नरम हो गई हैं, बहुत बारिश के बाद।"
+      flags: { soft_rotten_berries: 1, wet_humid_weather: 1 }
+    - text: "पत्तियों पर कोई दाग नहीं है और बेरी में कोई छेद नहीं है।"
+      flags: { yellow_spots_on_leaf: -1, brown_spot_grey_center: -1, small_hole_in_berry: -1 }
+    - text: "पत्तियों पर गोल भूरे धब्बे हैं, उनका बीच का हिस्सा स्लेटी रंग का है।"
+      flags: { brown_spot_grey_center: 1 }
+    - text: "छोटी हरी बेरी पर गहरे धंसे हुए दाग हैं, लेकिन उनमें छेद नहीं है।"
+      flags: { dark_sunken_spots_on_green_berries: 1, small_hole_in_berry: -1 }
+    - text: "पत्तियों पर काली कालिख जैसी परत है और पत्तियाँ चिपचिपी हैं।"
+      flags: { black_sooty_mold: 1, sticky_leaves: 1 }
+    - text: "पौधा ठीक से बढ़ नहीं रहा, पत्तियाँ पीली पड़ रही हैं, और कोई कीड़ा नहीं दिखता।"
+      flags: { poor_growth_stunted: 1, leaves_yellowing: 1, green_insects_on_leaves_stems: -1 }
+    # wilting is not the same as poor growth (local models confuse them)
+    - text: "टहनियाँ मुरझा कर नीचे लटक गई हैं।"
+      flags: { wilting: 1 }

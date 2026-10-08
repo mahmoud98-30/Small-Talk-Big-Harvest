@@ -1,0 +1,3 @@
+provider,model,lang,n,correct,wrong,not_sure
+ollama,gemma3:4b,hi,12,0.833,0.0,0.167
+together,Qwen/Qwen3.5-9B,hi,12,1.0,0.0,0.0

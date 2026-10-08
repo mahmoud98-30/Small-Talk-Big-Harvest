@@ -1,0 +1,5 @@
+- **The local stack made one wrong diagnosis (Hindi speech).** Local Whisper misspelled "मुरझा" (wilting) as "मुर्जा"; gemma3:4b then invented *poor growth* and the matcher answered *root rot* instead of "not sure". This was found before `config/lexicon/hi.yaml` existed; the Hindi keyword list now blocks a "yes" from the local model that no keyword confirms.
+- **The feedback loop fixes ambiguous matches, not missed symptoms.** When the LLM misses a symptom and only one symptom is left, the case stops at `too_few_symptoms` before the knowledge base is consulted, so an expert label can't change the next answer.
+- **Together AI had real timeouts** during one eval run. Retry + fallback is what keeps the farmer answered; with fallback disabled, those cases became "not sure".
+- **Local Whisper large-v3-turbo on the laptop GPU beats Together's Whisper large-v3 on Hindi** FLEURS (WER 0.15 vs 0.24) at ~1.2 s per clip.
+- **Speed:** Together answers a voice case in ~4–9 s; the fully local stack takes ~23 s per case. The phone call waits up to ~75 s.

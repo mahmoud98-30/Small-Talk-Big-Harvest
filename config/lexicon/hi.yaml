@@ -1,0 +1,73 @@
+# Hindi keyword cross-check for symptom extraction. Human-written; a native speaker should review.
+#
+# Same rules as sw.yaml (see app/pipeline/lexicon.py), plus:
+#   - Hindi puts the negator AFTER the noun ("धब्बे नहीं हैं"), so `negation_after_window` words after a
+#     match are checked too.
+#   - Text and patterns are NFC-normalised, so ड़/ड़ and ढ़/ढ़ (with or without a separate nukta) match alike.
+#   - Whisper often hears पीले (yellow) as नीले (blue). No coffee problem has blue spots, so "नीले दाग"
+#     on a leaf is read as yellow spots.
+# Patterns are case-insensitive regular expressions. Do not use \b: it does not work with Devanagari.
+
+negators: [नहीं, नही, न, ना, बिना]
+negation_window: 2
+negation_after_window: 3
+clause_split: '[.;!?,।]|लेकिन|मगर|परंतु'
+
+symptoms:
+  yellow_spots_on_leaf:
+    present: ['(पीले|पीला|पीली|नीले|नीला|नीली)( रंग के)? (दाग|डाग|धब्ब|निशान|चित्ते|बिंदु)']
+  orange_powder_under_leaf:
+    present: ['नारंगी.{0,15}(पाउडर|चूर्ण|धूल|पावडर)', '(पाउडर|चूर्ण|धूल|पावडर).{0,10}नारंगी']
+  brown_spot_grey_center:
+    present: ['भूरे.{0,15}(धब्ब|दाग|डाग)', 'बीच.{0,15}(स्लेटी|धूसर|ग्रे)']
+  leaves_yellowing:
+    present: ['(पीली|पीले|पीला) (पड़|हो|होने|पड़ने)', 'पीलापन']
+  leaves_falling:
+    present: ['(पत्ति|पत्ते|पत्तों|पत्ती)(?:(?!बेरी|फल|दान).){0,35}(गिर|झड़)']
+    absent: ['(पत्ति|पत्ते|पत्ती)\S* (नहीं|नही) (गिर|झड़)']
+  wilting:
+    present: ['मुरझा', 'कुम्हला', 'लटक गई', 'लटक गए']
+  dry_leaves_stay_attached:
+    present: ['सूखी (पत्ति|पत्ते|पत्ती).{0,40}(लटकी|लगी|टिकी|चिपकी|टंगी) (रह|हुई)']
+  green_insects_on_leaves_stems:
+    present: ['हरे.{0,12}(कीड़|कीट|शल्क)', 'हरा कीड़ा']
+  sticky_leaves:
+    present: ['चिपचिप']
+  black_sooty_mold:
+    present: ['कालिख', 'काली (फफूंद|फफूँद|परत)']
+  ants_present:
+    present: ['चींटि', 'चींटी', 'चीटि', 'चीटी']
+  branch_dieback:
+    present: ['(डाल|डालि|टहनि|टहनी|शाख).{0,20}सूख']
+  dark_inside_stem:
+    present: ['(तना|तने).{0,30}(अंदर|भीतर).{0,20}(काला|काली|काले|भूरा)', '(अंदर|भीतर) से (काला|काली|भूरा)']
+  poor_growth_stunted:
+    present: ['बढ़\S* (नहीं|नही)', '(नहीं|नही) बढ़', 'छोटा रह गया', 'छोटे रह गए', 'बौना', 'विकास (नहीं|रुक)']
+  dark_soft_roots:
+    present: ['जड़.{0,30}(काली|काले|सड़|गल|नरम)']
+  waterlogged_soil:
+    present: ['पानी (भरा|भर|जमा|रुक|ठहर)', 'मिट्टी.{0,20}(गीली|दलदल)', 'जलभराव']
+  dark_sunken_spots_on_green_berries:
+    present: ['(धंसे|धँसे|दबे).{0,15}(धब्ब|दाग|डाग)', '(बेरी|फल|दान).{0,30}काले.{0,10}(धब्ब|दाग|डाग)']
+  berries_dry_shrivel:
+    present: ['(बेरी|फल|दाने).{0,50}(सूख|सिकुड़)']
+  berries_falling_early:
+    present: ['(बेरी|फल|दाने).{0,50}(गिर|झड़)']
+  small_hole_in_berry:
+    present: ['छेद', 'सुराख']
+  insects_inside_berry:
+    present: ['(अंदर|भीतर).{0,25}(कीड़|कीट|इल्ली|सुरंग)', 'सुरंग']
+  soft_rotten_berries:
+    present: ['(बेरी|फल|दाने).{0,30}(सड़|गल|नरम)']
+  mold_on_berries:
+    present: ['(बेरी|फल|दाने).{0,40}(फफूंद|फफूँद)', '(फफूंद|फफूँद).{0,20}(बेरी|फल|दाने)']
+  wet_humid_weather:
+    present: ['बारिश', 'वर्षा', 'बरसात', 'नमी', 'उमस']
+    absent: ['सूखा पड़']
+
+negated_generic:
+  धब्बा: { symptoms: [yellow_spots_on_leaf, brown_spot_grey_center], unless: [बेरी, फल] }
+  धब्बे: { symptoms: [yellow_spots_on_leaf, brown_spot_grey_center], unless: [बेरी, फल] }
+  दाग: { symptoms: [yellow_spots_on_leaf, brown_spot_grey_center], unless: [बेरी, फल] }
+  कीड़ा: { symptoms: [green_insects_on_leaves_stems, insects_inside_berry] }
+  कीड़े: { symptoms: [green_insects_on_leaves_stems, insects_inside_berry] }

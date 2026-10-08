@@ -1,0 +1,42 @@
+# SYNTHETIC test set, written by the team from knowledge/coffee_disease_knowledge_base.xlsx (not real farmer data).
+# flags: only non-zero symptoms (everything else expected 0).
+# condition: expected end-to-end result with the seed knowledge base ("not_sure" = the system should abstain).
+# Per language: the 8 conditions + healthy + 3 abstain cases (single symptom, look-alikes, ambiguous mix).
+cases:
+  hi:
+    - text: "पत्तियों के ऊपर छोटे पीले धब्बे हैं और नीचे नारंगी पाउडर है। पत्तियाँ गिर रही हैं।"
+      flags: { yellow_spots_on_leaf: 1, orange_powder_under_leaf: 1, leaves_falling: 1 }
+      condition: leaf_rust
+    - text: "हरी कच्ची बेरी पर काले धंसे हुए धब्बे हैं और वे सूखकर गिर रही हैं।"
+      flags: { dark_sunken_spots_on_green_berries: 1, berries_dry_shrivel: 1, berries_falling_early: 1 }
+      condition: coffee_berry_disease
+    - text: "पूरा पेड़ मुरझा रहा है, सूखी पत्तियाँ टहनियों पर लटकी रहती हैं और डालियाँ सूख रही हैं।"
+      flags: { wilting: 1, dry_leaves_stay_attached: 1, branch_dieback: 1 }
+      condition: coffee_wilt_disease
+    - text: "पत्तियों पर गोल भूरे धब्बे हैं जिनका बीच स्लेटी है और किनारा गहरा है। नारंगी पाउडर नहीं है।"
+      flags: { brown_spot_grey_center: 1, orange_powder_under_leaf: -1 }
+      condition: cercospora
+    - text: "मिट्टी में पानी भरा रहता है, पौधा छोटा रह गया है और जड़ें काली और सड़ी हुई हैं।"
+      flags: { waterlogged_soil: 1, poor_growth_stunted: 1, dark_soft_roots: 1 }
+      condition: root_rot
+    - text: "बेरी में छोटा गोल छेद है और अंदर सुरंगें और छोटे कीड़े हैं।"
+      flags: { small_hole_in_berry: 1, insects_inside_berry: 1 }
+      condition: berry_borer
+    - text: "पत्तियों के नीचे छोटे हरे कीड़े चिपके हैं, पत्तियाँ चिपचिपी हैं और चींटियाँ बहुत हैं।"
+      flags: { green_insects_on_leaves_stems: 1, sticky_leaves: 1, ants_present: 1 }
+      condition: green_scale
+    - text: "बेरी नरम होकर सड़ रही हैं और उन पर फफूंद दिख रही है, लगातार बारिश हुई है।"
+      flags: { soft_rotten_berries: 1, mold_on_berries: 1, wet_humid_weather: 1 }
+      condition: berry_rot
+    - text: "पौधा ठीक है। पत्तियों पर कोई धब्बा नहीं, कोई कीड़ा नहीं, बेरी में छेद नहीं।"
+      flags: { yellow_spots_on_leaf: -1, brown_spot_grey_center: -1, green_insects_on_leaves_stems: -1, insects_inside_berry: -1, small_hole_in_berry: -1 }
+      condition: healthy
+    - text: "बेरी गिर रही हैं।"
+      flags: { berries_falling_early: 1 }
+      condition: not_sure
+    - text: "पेड़ मुरझा रहा है और पत्तियाँ पीली हो रही हैं।"
+      flags: { wilting: 1, leaves_yellowing: 1 }
+      condition: not_sure
+    - text: "पत्तियाँ पीली हो रही हैं और गिर रही हैं।"
+      flags: { leaves_yellowing: 1, leaves_falling: 1 }
+      condition: not_sure
